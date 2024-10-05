@@ -1,87 +1,152 @@
-import { Children, useState, react, useEffect, Component, useId } from 'react';
+import { Children, useState, React, useEffect, Component, useId } from 'react';
 import reactLogo from '../assets/react.svg';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import viteLogo from '/vite.svg';
 import styles from './App.module.css';
-import './App.module.css';
 import clsx from 'clsx';
-import Product from './product/Product';
-import taskItem from './task.json';
+import { number } from 'prop-types';
+import ContactList from './ContactList/ContactList';
+import SearchBox from './SearchBox/SearchBox';
 
-/////////////////////  Formik  ///////////////////////////
+///////////////////  hw-03  /////////////////
 
-const FeedbackSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string().email('Must be valid email!').required('Required'),
-  message: Yup.string()
-    .min(3, 'Too short')
-    .max(256, 'Too long')
-    .required('Required'),
-  level: Yup.string().oneOf(['good', 'neutral', 'bad']).required('Required'),
-});
+const initialContacts = [
+  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+];
 
-const initialValues = {
-  username: '',
-  email: '',
-  message: '',
-  level: 'good',
-};
+/////////                        ////////////
 
-const FeedbackForm = () => {
-  const nameFieldId = useId();
-  const emailFieldId = useId();
-  const msgFieldId = useId();
-  const levelFieldId = useId();
-
-  const handleSubmit = (values, actions) => {
-    console.log(values);
-    actions.resetForm();
-  };
-
-  return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validationSchema={FeedbackSchema}
-    >
-      <Form>
-        <label htmlFor={nameFieldId}>Username</label>
-        <Field type="text" name="username" id={nameFieldId} />
-        <ErrorMessage name="username" component="span" />
-
-        <label htmlFor={emailFieldId}>Email</label>
-        <Field type="email" name="email" id={emailFieldId} />
-        <ErrorMessage name="email" component="span" />
-
-        <label htmlFor={msgFieldId}>Message</label>
-        <Field as="textarea" name="message" id={msgFieldId} rows="5" />
-        <ErrorMessage name="message" component="span" />
-
-        <label htmlFor={levelFieldId}>Service satisfaction level</label>
-        <Field as="select" name="level" id={levelFieldId}>
-          <option value="good">Good</option>
-          <option value="neutral">Neutral</option>
-          <option value="bad">Bad</option>
-        </Field>
-        <ErrorMessage name="level" component="span" />
-
-        <button type="submit">Submit</button>
-      </Form>
-    </Formik>
-  );
+const ContactForm = () => {
+  return <div>ContactForm</div>;
 };
 
 export const App = () => {
+  const [contactItem, setContactItem] = useState(() => {
+    const saveContacts = localStorage.getItem('savedContactAddress');
+    if (saveContacts !== null) {
+      return JSON.parse(saveContacts);
+    }
+    return initialContacts;
+  });
+
+  const [toFilter, setToFilter] = useState('');
+
+  const deleteContact = contactId => {
+    setContactItem(delContact => {
+      return delContact.filter(cont => cont.id !== contactId);
+    });
+  };
+
+  const filteredContacts = contactItem.filter(
+    cont =>
+      cont.name.toLowerCase().includes(toFilter.toLowerCase()) ||
+      cont.number.toLowerCase().includes(toFilter.toLowerCase())
+  );
+
+  // //  const addTask = newTask => {
+  // //    setTasks(prevTasks => {
+  // //      return [...prevTasks, newTask];
+  // //    });
+  // //  };
+
+  // const addContact = () => {
+  //   setContactItem(contactItem => {
+  //     return [
+  //       ...contactItem,
+  //       { name: 'Vit Art', number: '322-22-33', id: 'id-22' },
+  //     ];
+  //   });
+  // };
+
   return (
     <div>
-      <FeedbackForm />
+      <h1 className={clsx(styles.h1)}>Phonebook </h1>
+      <ContactForm />
+      <SearchBox toFilter={toFilter} setToFilter={setToFilter} />
+      <ContactList contacts={filteredContacts} onDelete={deleteContact} />
     </div>
   );
 };
+
+export default App;
+
+/////////////////////  Formik  ///////////////////////////
+
+// const FeedbackSchema = Yup.object().shape({
+//   username: Yup.string()
+//     .min(2, 'Too Short!')
+//     .max(50, 'Too Long!')
+//     .required('Required'),
+//   email: Yup.string().email('Must be valid email!').required('Required'),
+//   message: Yup.string()
+//     .min(3, 'Too short')
+//     .max(256, 'Too long')
+//     .required('Required'),
+//   level: Yup.string().oneOf(['good', 'neutral', 'bad']).required('Required'),
+// });
+
+// const initialValues = {
+//   username: '',
+//   email: '',
+//   message: '',
+//   level: 'good',
+// };
+
+// const FeedbackForm = () => {
+//   const nameFieldId = useId();
+//   const emailFieldId = useId();
+//   const msgFieldId = useId();
+//   const levelFieldId = useId();
+
+//   const handleSubmit = (values, actions) => {
+//     console.log(values);
+//     actions.resetForm();
+//   };
+
+//   return (
+//     <Formik
+//       initialValues={initialValues}
+//       onSubmit={handleSubmit}
+//       validationSchema={FeedbackSchema}
+//     >
+//       <Form>
+//         <label htmlFor={nameFieldId}>Username</label>
+//         <Field type="text" name="username" id={nameFieldId} />
+//         <ErrorMessage name="username" component="span" />
+
+//         <label htmlFor={emailFieldId}>Email</label>
+//         <Field type="email" name="email" id={emailFieldId} />
+//         <ErrorMessage name="email" component="span" />
+
+//         <label htmlFor={msgFieldId}>Message</label>
+//         <Field as="textarea" name="message" id={msgFieldId} rows="5" />
+//         <ErrorMessage name="message" component="span" />
+
+//         <label htmlFor={levelFieldId}>Service satisfaction level</label>
+//         <Field as="select" name="level" id={levelFieldId}>
+//           <option value="good">Good</option>
+//           <option value="neutral">Neutral</option>
+//           <option value="bad">Bad</option>
+//         </Field>
+//         <ErrorMessage name="level" component="span" />
+
+//         <button type="submit">Submit</button>
+//       </Form>
+//     </Formik>
+//   );
+// };
+
+// export const App = () => {
+//   return (
+//     <div>
+//       <FeedbackForm />
+//     </div>
+//   );
+// };
 
 /////////////////  колекція елементів  ///////////////////////
 
@@ -863,5 +928,3 @@ export const App = () => {
 //     </div>
 //   );
 // };
-
-export default App;

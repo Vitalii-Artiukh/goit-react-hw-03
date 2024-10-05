@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+phone.svg
+user.svg
+icomoon.svg
