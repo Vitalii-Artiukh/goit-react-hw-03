@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React } from 'react';
 import Contact from '../Contact/Contact';
 import clsx from 'clsx';
 import styles from './ContactList.module.css';
