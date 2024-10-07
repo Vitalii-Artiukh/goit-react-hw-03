@@ -5,7 +5,7 @@ import styles from './Contact.module.css';
 const Contact = ({ data: { id, name, number }, onDelete }) => {
   return (
     <div className={clsx(styles.contactsWrapper)}>
-      <div>
+      <div className={clsx(styles.textWrapper)}>
         <p className={clsx(styles.name)}>
           <span className={clsx(styles.icon)}>👤 </span>
           {name}

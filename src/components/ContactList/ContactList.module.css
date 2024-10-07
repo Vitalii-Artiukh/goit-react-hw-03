@@ -1,0 +1,10 @@
+.contactsWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.listItem {
+  width: 280px;
+}

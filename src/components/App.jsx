@@ -13,6 +13,7 @@ export const App = () => {
     if (saveContacts !== null) {
       return JSON.parse(saveContacts);
     }
+
     return initialContacts;
   });
 
@@ -49,6 +50,7 @@ export const App = () => {
   return (
     <div>
       <h1 className={clsx(styles.h1)}>Phonebook</h1>
+
       <ContactForm addContact={addContact} />
       <SearchBox toFilter={toFilter} setToFilter={setToFilter} />
       <ContactList contacts={filteredContacts} onDelete={deleteContact} />

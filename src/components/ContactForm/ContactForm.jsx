@@ -1,6 +1,7 @@
 import { React, useId } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import contactSchema from '../data/validationSchema';
+import styles from './ContactForm.module.css';
 import clsx from 'clsx';
 
 const initialValues = {
@@ -24,23 +25,35 @@ const ContactForm = ({ addContact }) => {
       onSubmit={handleSubmit}
       validationSchema={contactSchema}
     >
-      <Form>
-        <div>
-          <label htmlFor={nameInputId}>
+      <Form className={clsx(styles.form)}>
+        <div className={clsx(styles.formWrapper)}>
+          <label htmlFor={nameInputId} className={clsx(styles.label)}>
             <span>Name</span>
 
-            <Field type="text" name="name" id={nameInputId} />
+            <Field
+              className={clsx(styles.input)}
+              type="text"
+              name="name"
+              id={nameInputId}
+            />
             <ErrorMessage name="name" component="span" />
           </label>
 
-          <label htmlFor={numberInputId}>
+          <label htmlFor={numberInputId} className={clsx(styles.label)}>
             <span>Number</span>
 
-            <Field type="text" name="number" id={numberInputId} />
+            <Field
+              className={clsx(styles.input)}
+              type="text"
+              name="number"
+              id={numberInputId}
+            />
             <ErrorMessage name="number" component="span" />
           </label>
 
-          <button type="submit">Add contact</button>
+          <button className={clsx(styles.btn)} type="submit">
+            Add contact
+          </button>
         </div>
       </Form>
     </Formik>
